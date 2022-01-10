@@ -44,7 +44,7 @@ class BinaryTree:
                         print("Dublicate Found!")
                         return
 
-            else:#move left
+            else:
                 if base_val.left==None:
                     base_val.left = Node(val)
                     self.r_count+=1                
@@ -58,9 +58,8 @@ class BinaryTree:
                         return
         
     def find(self,val):
+        base_val = self.root    
 
-        base_val = self.root
-        
         while True:
             if base_val.node!=val:
                 if val>base_val.node:
@@ -68,64 +67,95 @@ class BinaryTree:
                     if base_val==None:
                         print("False")
                         return False
-
                 else:
                     base_val = base_val.left
                     if base_val==None:
                         print("False")
                         return False
-
             else:
                 print("True")
                 return True
 
-    def lvl_o_trvs(self):
-        bst = self.root
-        n = True
-        base = True
-        q = queu()
-        while n:
-            if base:
-                q.enq(bst)
-                base = False
+    def LvlOrdTr(self):
+        print("Level Order Traversal")
+        root = self.root
+        tree = True
+        first_elem = True
+        elem_list = []
+        queue = queu()
+        while tree:
+            if first_elem:
+                queue.enq(root)
+                first_elem = False
             else:        
-                e = q.deq()
-                if e!="underflow":
-                    print(e.node,end=" -> ")
-                    sys.stdout.flush()
-                    time.sleep(.5)
-                    e_left = e.left
-                    e_right = e.right
-                    if e_left !=None:
-                        q.enq(e_left)
-                    if e_right != None:
-                        q.enq(e_right)
-                        
+                deque_root = queue.deq()
+                if deque_root != "underflow":
+                    elem_list.append(deque_root.node)
+                    left_child = deque_root.left
+                    right_child = deque_root.right
+                    if left_child !=None:
+                        queue.enq(left_child)
+                    if right_child != None:
+                        queue.enq(right_child)   
                 else:
-                    n = False
+                    tree = False
+
+        self.print_slowly(elem_list)
+        return elem_list
+
+    def InOrdTr(self):
+        print("Inorder Traversal (Left <-> Root <-> Right)")
+        elem_list = []
+        def traverse(root = self.root):
+            if root:
+                traverse(root.left)
+                # print(root.node,end=" ")
+                elem_list.append(root.node)
+                traverse(root.right)
+
+        traverse(self.root)
+        self.print_slowly(elem_list)
+
+        return elem_list
+    
+    def PreOrdTr(self):
+        print("PreOrder Traversal (Root <-> Left <-> Right)")
+        elem_list = []
+        def traverse(root = self.root):
+            if root:
+                # print(root.node,end=" ")
+                elem_list.append(root.node)
+                traverse(root.left)
+                traverse(root.right)
+
+        traverse(self.root)
+        self.print_slowly(elem_list)
+
+        return elem_list
+    
+    def print_slowly(self,lst):
+        last = lst[-1]
+        for i in range(len(lst)-1):
+            print(lst[i],end=" -> ")
+            sys.stdout.flush()
+            time.sleep(.5)
+        print(last)
+
+        return 
+
+        
 
 
+if __name__ == "__main__":
 
+        elem_to_pus = [50,10,30,5,300,15]
+        bst = BinaryTree(elem_to_pus[0])
+        for idx in range(1,len(elem_to_pus)):
+            bst.push(idx)
 
-
-
-
-
-
-# q = queue(3)
-a = []
-bst = BinaryTree(20)
-
-bst.push(50)
-bst.push(10)
-bst.push(30)
-bst.push(5)
-bst.push(300)
-bst.push(15)
-
-# bnt.find(5)
-
-bst.lvl_o_trvs()
+        bst.LvlOrdTr() # level-order traversing
+        bst.InOrdTr()  # in-order traversing
+        bst.PreOrdTr() # pre-order traversing
 
 
 
