@@ -1,4 +1,4 @@
-# Python Implementation Of DataStructure 
+# Python Implementation Of DataStructures
 - Binary Tree
 - Linked List
 - Queue
